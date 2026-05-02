@@ -1,6 +1,6 @@
 package com.chamindu.demo.service;
 
-import Mapper.EmployeeMapper;
+import com.chamindu.demo.mapper.EmployeeMapper;
 import com.chamindu.demo.model.dto.ApiResponse;
 import com.chamindu.demo.model.dto.EmployeeDTO;
 import com.chamindu.demo.model.entity.Employee;

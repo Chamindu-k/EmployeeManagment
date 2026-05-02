@@ -1,12 +1,8 @@
 package com.chamindu.demo.service;
 
-import Mapper.EmployeeMapper;
-import Mapper.FurnitureMapper;
-import com.chamindu.demo.model.dto.EmployeeDTO;
+import com.chamindu.demo.mapper.FurnitureMapper;
 import com.chamindu.demo.model.dto.FurnitureDTO;
-import com.chamindu.demo.model.entity.Employee;
 import com.chamindu.demo.model.entity.Furniture;
-import com.chamindu.demo.repository.EmployeeRepository;
 import com.chamindu.demo.repository.FurnitureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

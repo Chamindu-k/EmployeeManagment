@@ -1,8 +1,6 @@
-package Mapper;
+package com.chamindu.demo.mapper;
 
-import com.chamindu.demo.model.dto.EmployeeDTO;
 import com.chamindu.demo.model.dto.FurnitureDTO;
-import com.chamindu.demo.model.entity.Employee;
 import com.chamindu.demo.model.entity.Furniture;
 
 /**
