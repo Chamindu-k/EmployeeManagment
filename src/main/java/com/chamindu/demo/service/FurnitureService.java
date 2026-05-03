@@ -34,8 +34,17 @@ public class FurnitureService {
                 .data(dto)
                 .build();
     }
+
     public ApiResponse<List<FurnitureDTO>> getAllFurniture(){
         List<Furniture> furniture = furnitureRepository.findAll();
+
+        if (furniture.isEmpty()) {
+            return ApiResponse.<List<FurnitureDTO>>builder()
+                    .success(true)
+                    .message("Furniture not found")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
 
         return ApiResponse.<List<FurnitureDTO>>builder()
                 .success(true)
@@ -44,9 +53,8 @@ public class FurnitureService {
                 .timestamp(LocalDateTime.now())
                 .data(FurnitureMapper.toDTOList(furniture))
                 .build();
-
-
     }
+
     public ApiResponse<FurnitureDTO> updateFurniture(Long id,FurnitureDTO furnitureDTO){
         Optional<Furniture> furniture = furnitureRepository.findById(id);
 
@@ -68,6 +76,25 @@ public class FurnitureService {
         Optional<Furniture> furniture = furnitureRepository.findById(id);
        furnitureRepository.delete(furniture.get());
 
+    }
+
+    public ApiResponse<FurnitureDTO> getFurnitureById(Long id){
+        Optional<Furniture> furniture = furnitureRepository.findById(id);
+
+        if (furniture.isEmpty()) {
+            return ApiResponse.<FurnitureDTO>builder()
+                    .success(true)
+                    .message("Furniture not found")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
+
+        return ApiResponse.<FurnitureDTO>builder()
+                .success(true)
+                .message("Furniture fetched sucessfully")
+                .timestamp(LocalDateTime.now())
+                .data(FurnitureMapper.toDto(furniture.get()))
+                .build();
     }
 }
 

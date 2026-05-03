@@ -22,7 +22,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public ApiResponse<EmployeeDTO> addEmployee (EmployeeDTO employeeDTO){
+    public ApiResponse<EmployeeDTO> addEmployee (@RequestBody EmployeeDTO employeeDTO){
         return employeeService.addEmployee(employeeDTO);
     }
 
