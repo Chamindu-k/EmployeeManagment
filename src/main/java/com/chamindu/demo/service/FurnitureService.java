@@ -1,12 +1,18 @@
 package com.chamindu.demo.service;
 
+import com.chamindu.demo.mapper.EmployeeMapper;
 import com.chamindu.demo.mapper.FurnitureMapper;
+import com.chamindu.demo.model.dto.ApiResponse;
+import com.chamindu.demo.model.dto.EmployeeDTO;
 import com.chamindu.demo.model.dto.FurnitureDTO;
+import com.chamindu.demo.model.entity.Employee;
 import com.chamindu.demo.model.entity.Furniture;
+import com.chamindu.demo.repository.EmployeeRepository;
 import com.chamindu.demo.repository.FurnitureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,31 +24,50 @@ import java.util.Optional;
 public class FurnitureService {
     private final FurnitureRepository furnitureRepository;
 
-    public FurnitureDTO addFurniture(FurnitureDTO dto){
+    public ApiResponse<FurnitureDTO> addFurniture(FurnitureDTO dto){
         furnitureRepository.save(FurnitureMapper.toEntity(dto));
-        return dto;
+        return ApiResponse.<FurnitureDTO>builder()
+                .success(true)
+                .message("Furniture created successfully")
+                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now())
+                .data(dto)
+                .build();
     }
-    public List<FurnitureDTO> getAllFurniture(){
-        return furnitureRepository.findAll()
-                .stream()
-                .map(FurnitureMapper::toDto)
-                .toList();
+    public ApiResponse<List<FurnitureDTO>> getAllFurniture(){
+        List<Furniture> furniture = furnitureRepository.findAll();
+
+        return ApiResponse.<List<FurnitureDTO>>builder()
+                .success(true)
+                .message("Furniture fetched sucessfully")
+                .count(furniture.size())
+                .timestamp(LocalDateTime.now())
+                .data(FurnitureMapper.toDTOList(furniture))
+                .build();
+
+
     }
-    public FurnitureDTO updateFurniture(Long id,FurnitureDTO furnitureDTO){
+    public ApiResponse<FurnitureDTO> updateFurniture(Long id,FurnitureDTO furnitureDTO){
         Optional<Furniture> furniture = furnitureRepository.findById(id);
 
         Furniture updateFurniture = furniture.get();
 
         updateFurniture.setName(furnitureDTO.getName());
         updateFurniture.setDepartment(furnitureDTO.getDepartment());
-       furnitureRepository.save(updateFurniture);
+        furnitureRepository.save(updateFurniture);
 
-        return FurnitureMapper.toDto(updateFurniture);
+        return  ApiResponse.<FurnitureDTO>builder()
+                .success(true)
+                .message("Furniture updated sucessfully")
+                .timestamp(LocalDateTime.now())
+                .data(furnitureDTO)
+                .build();
     }
 
     public void deleteFurniture(Long id){
         Optional<Furniture> furniture = furnitureRepository.findById(id);
-        furnitureRepository.delete(furniture.get());
+       furnitureRepository.delete(furniture.get());
 
     }
 }
+

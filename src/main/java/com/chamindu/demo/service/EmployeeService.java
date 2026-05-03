@@ -20,7 +20,7 @@ import java.util.Optional;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    public ApiResponse<EmployeeDTO> addEmployee(EmployeeDTO dto){
+    public ApiResponse<EmployeeDTO> addEmployee(EmployeeDTO dto) {
         employeeRepository.save(EmployeeMapper.toEntity(dto));
         return ApiResponse.<EmployeeDTO>builder()
                 .success(true)
@@ -30,40 +30,67 @@ public class EmployeeService {
                 .data(dto)
                 .build();
     }
-public ApiResponse<List<EmployeeDTO>> getAllEmployee(){
+
+    public ApiResponse<List<EmployeeDTO>> getAllEmployee() {
         List<Employee> employees = employeeRepository.findAll();
 
-   return ApiResponse.<List<EmployeeDTO>>builder()
-           .success(true)
-           .message("Employee fetched sucessfully")
-           .count(employees.size())
-           .timestamp(LocalDateTime.now())
-           .data(EmployeeMapper.toDTOList(employees))
-           .build();
+        if (employees.isEmpty()) {
+            return ApiResponse.<List<EmployeeDTO>>builder()
+                    .success(true)
+                    .message("Employee not found")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
 
+        return ApiResponse.<List<EmployeeDTO>>builder()
+                .success(true)
+                .message("Employee fetched successfully")
+                .count(employees.size())
+                .timestamp(LocalDateTime.now())
+                .data(EmployeeMapper.toDTOList(employees))
+                .build();
+    }
 
-}
-public ApiResponse<EmployeeDTO> updateEmployee(Long id,EmployeeDTO employeeDTO){
-    Optional<Employee> employee = employeeRepository.findById(id);
+    public ApiResponse<EmployeeDTO> updateEmployee(Long id, EmployeeDTO employeeDTO) {
+        Optional<Employee> employee = employeeRepository.findById(id);
 
-    Employee updateEmployee = employee.get();
+        Employee updateEmployee = employee.get();
 
-    updateEmployee.setName(employeeDTO.getName());
-    updateEmployee.setDepartment(employeeDTO.getDepartment());
-    employeeRepository.save(updateEmployee);
+        updateEmployee.setName(employeeDTO.getName());
+        updateEmployee.setDepartment(employeeDTO.getDepartment());
+        employeeRepository.save(updateEmployee);
 
-    return  ApiResponse.<EmployeeDTO>builder()
-            .success(true)
-            .message("Employee updated sucessfully")
-            .timestamp(LocalDateTime.now())
-            .data(employeeDTO)
-            .build();
-}
+        return ApiResponse.<EmployeeDTO>builder()
+                .success(true)
+                .message("Employee updated sucessfully")
+                .timestamp(LocalDateTime.now())
+                .data(employeeDTO)
+                .build();
+    }
 
-public void deleteEmployee(Long id){
+    public void deleteEmployee(Long id) {
         Optional<Employee> employee = employeeRepository.findById(id);
         employeeRepository.delete(employee.get());
 
+    }
+
+    public ApiResponse<EmployeeDTO> getEmployeeById(Long id){
+        Optional<Employee> employee = employeeRepository.findById(id);
+
+        if (employee.isEmpty()) {
+            return ApiResponse.<EmployeeDTO>builder()
+                    .success(true)
+                    .message("Employee not found")
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
+
+        return ApiResponse.<EmployeeDTO>builder()
+                .success(true)
+                .message("Employee fetched successfully")
+                .timestamp(LocalDateTime.now())
+                .data(EmployeeMapper.toDto(employee.get()))
+                .build();
     }
 }
 

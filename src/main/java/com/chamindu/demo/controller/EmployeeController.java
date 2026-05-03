@@ -27,9 +27,10 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ApiResponse<List<EmployeeDTO>> getEmployee(){
+    public ApiResponse<List<EmployeeDTO>> getAllEmployee(){
         return employeeService.getAllEmployee();
     }
+
     @PutMapping("/{id}")
     public ApiResponse<EmployeeDTO>  updateEmployee (@PathVariable Long id,@RequestBody EmployeeDTO employeeDTO){
         return employeeService.updateEmployee(id, employeeDTO);
@@ -39,6 +40,11 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable  Long id){
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<EmployeeDTO> getEmployeeById(@PathVariable Long id){
+        return employeeService.getEmployeeById(id);
     }
 }
 
