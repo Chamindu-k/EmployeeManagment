@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,4 +18,6 @@ public class FurnitureDTO {
     private Long furnitureId ;
     private String name;
     private String department;
+    private List<FurnitureTypeDTO> type;
+
 }
