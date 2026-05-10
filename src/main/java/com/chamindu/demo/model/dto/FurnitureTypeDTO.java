@@ -5,17 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * Author by chamindu_kaushalya
  */
 @Data
 @Builder
-@AllArgsConstructor @NoArgsConstructor
-public class EmployeeDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class FurnitureTypeDTO {
     private Long id;
-    private String name;
-    private String department;
-    private List<EmployeeSkillsDTO> skills;
+    private String furnitureBrand;
+    private String furnitureType;
+
 }
+

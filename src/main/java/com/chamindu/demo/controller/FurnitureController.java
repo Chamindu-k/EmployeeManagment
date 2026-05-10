@@ -24,7 +24,7 @@ public class FurnitureController {
     private final FurnitureService furnitureService;
 
     @PostMapping
-    public ApiResponse<FurnitureDTO> addFurniture (FurnitureDTO furnitureDTO){
+    public ApiResponse<FurnitureDTO> addFurniture (@RequestBody FurnitureDTO furnitureDTO){
         return furnitureService.addFurniture(furnitureDTO);
     }
 
@@ -32,6 +32,7 @@ public class FurnitureController {
     public ApiResponse<List<FurnitureDTO>> getFurniture(){
         return furnitureService.getAllFurniture();
     }
+
     @PutMapping("/{id}")
     public ApiResponse<FurnitureDTO>  updateFurniture (@PathVariable Long id,@RequestBody FurnitureDTO furnitureDTO){
         return furnitureService.updateFurniture(id, furnitureDTO);
@@ -41,6 +42,11 @@ public class FurnitureController {
     public ResponseEntity<Void> deleteFurniture(@PathVariable  Long id){
         furnitureService.deleteFurniture(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<FurnitureDTO> getFurnitureById(@PathVariable Long id){
+        return furnitureService.getFurnitureById(id);
     }
 }
 

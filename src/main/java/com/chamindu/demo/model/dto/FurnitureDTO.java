@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Author by chamindu_kaushalya
@@ -14,7 +14,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 public class FurnitureDTO {
-    private Long furnitureId ;
+    private Long id;
     private String name;
     private String department;
+    private List<FurnitureTypeDTO> types;
+
 }

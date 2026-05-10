@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.lang.reflect.GenericArrayType;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,8 +19,18 @@ import java.util.UUID;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
     private String name;
     private String department;
 
+    @OneToMany(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<EmployeeSkills> skills = new ArrayList<>();
+
+    //    keep both sides in sync(important)
+    public void addSkills(EmployeeSkills skill){
+        skills.add(skill);
+        skill.setEmployee(this);
+    }
 }
