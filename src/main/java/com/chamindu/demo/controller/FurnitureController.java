@@ -24,7 +24,7 @@ public class FurnitureController {
     private final FurnitureService furnitureService;
 
     @PostMapping
-    public ApiResponse<FurnitureDTO> addFurniture (FurnitureDTO furnitureDTO){
+    public ApiResponse<FurnitureDTO> addFurniture (@RequestBody FurnitureDTO furnitureDTO){
         return furnitureService.addFurniture(furnitureDTO);
     }
 

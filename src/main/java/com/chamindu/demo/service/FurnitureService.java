@@ -1,18 +1,17 @@
 package com.chamindu.demo.service;
 
-import com.chamindu.demo.mapper.EmployeeMapper;
+
 import com.chamindu.demo.mapper.FurnitureMapper;
 import com.chamindu.demo.model.dto.ApiResponse;
-import com.chamindu.demo.model.dto.EmployeeDTO;
 import com.chamindu.demo.model.dto.FurnitureDTO;
-import com.chamindu.demo.model.entity.Employee;
 import com.chamindu.demo.model.entity.Furniture;
-import com.chamindu.demo.repository.EmployeeRepository;
+import com.chamindu.demo.model.entity.FurnitureType;
 import com.chamindu.demo.repository.FurnitureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +23,28 @@ import java.util.Optional;
 public class FurnitureService {
     private final FurnitureRepository furnitureRepository;
 
-    public ApiResponse<FurnitureDTO> addFurniture(FurnitureDTO dto){
-        furnitureRepository.save(FurnitureMapper.toEntity(dto));
+    public ApiResponse<FurnitureDTO> addFurniture(FurnitureDTO dto) {
+        //        add furniture details
+        Furniture furniture = new Furniture();
+        furniture.setName(dto.getName());
+        furniture.setDepartment(dto.getDepartment());
+
+//        add each row in furnitureType table
+        if (dto.getTypes() != null) {
+            furniture.setTypes(new ArrayList<>());
+            for (var s : dto.getTypes()) {
+                FurnitureType furnitureType = new FurnitureType();
+                furnitureType.setFurnitureName(s.getFurnitureBrand());
+                furnitureType.setFurnitureType(s.getFurnitureType());
+                furniture.addTypes(furnitureType);
+            }
+        }
+
+        furnitureRepository.save(furniture);
+
         return ApiResponse.<FurnitureDTO>builder()
                 .success(true)
                 .message("Furniture created successfully")
-                .timestamp(LocalDateTime.now())
                 .timestamp(LocalDateTime.now())
                 .data(dto)
                 .build();

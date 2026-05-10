@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Author by chamindu_kaushalya
@@ -25,11 +24,11 @@ public class Furniture {
     @OneToMany(mappedBy = "furniture",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<FurnitureType> type = new ArrayList<>();
+    private List<FurnitureType> types = new ArrayList<>();
 
     //    keep both sides in sync(important)
-    public void addType(FurnitureType type){
-       type.add(type);
-        type.setFurniture(this);
+    public void addTypes(FurnitureType type){
+       types.add(type);
+       type.setFurniture(this);
     }
 }
