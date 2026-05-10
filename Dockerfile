@@ -1,14 +1,19 @@
-#use java 21 lightweight linux image
-FROM eclipse-temurin:21-jdk-alpine
+# Build stage
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 
-#create woking folder inside container
 WORKDIR /app
 
-#copy Spring Boot WAR/JAR file into container
-COPY target/*.jar app.jar
+COPY . .
 
-#docker app uses port 8080
+RUN mvn clean package -DskipTests
+
+# Run stage
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-#run spring boot app
 ENTRYPOINT ["java", "-jar", "app.jar"]
